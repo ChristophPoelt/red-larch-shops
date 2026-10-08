@@ -21,41 +21,49 @@
             font-family: 'Lora', serif;
             color: var(--ink);
             display: flex;
+            flex-direction: column;
             height: 100vh;
-            overflow: hidden;
         }
         
-        /* Sidebar */
+        /* Header & Tabs (Original Design) */
         nav {
             background-color: #e6dac3;
-            width: 320px;
-            border-right: 3px solid #b89c72;
-            box-shadow: 5px 0 15px rgba(0,0,0,0.5);
-            display: flex;
-            flex-direction: column;
-            flex-shrink: 0;
+            border-bottom: 3px solid #b89c72;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
             z-index: 10;
         }
         nav h1 {
             font-family: 'Cinzel', serif;
             text-align: center;
-            font-size: 1.8rem;
-            margin: 20px 0;
+            font-size: 2rem;
+            margin: 15px 0 10px 0;
             color: var(--accent);
             padding: 0 15px;
         }
         .tab-container {
-            overflow-y: auto;
-            flex-grow: 1;
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+            /* Sanftes Scroll-Verhalten */
+            scroll-behavior: smooth;
         }
+        
+        /* Verstecke den Scrollbar für eine saubere Optik, erlaube aber Wischen */
+        .tab-container::-webkit-scrollbar {
+            height: 6px;
+        }
+        .tab-container::-webkit-scrollbar-thumb {
+            background: #b89c72;
+            border-radius: 10px;
+        }
+
         .tab-btn {
-            display: block;
-            width: 100%;
-            padding: 15px 20px;
-            text-align: left;
+            flex: 0 0 auto;
+            padding: 12px 25px;
             background: none;
             border: none;
-            border-bottom: 1px solid #d4c4a8;
+            border-right: 1px solid #d4c4a8;
+            border-bottom: 4px solid transparent;
             font-family: 'Cinzel', serif;
             font-size: 1.05rem;
             color: var(--ink);
@@ -68,7 +76,7 @@
         .tab-btn.active {
             background-color: #c2b296;
             font-weight: bold;
-            border-left: 5px solid var(--accent);
+            border-bottom: 4px solid var(--accent);
         }
 
         /* Main Content */
@@ -76,7 +84,7 @@
             flex-grow: 1;
             background-color: var(--parchment);
             background-image: url('https://www.transparenttextures.com/patterns/old-wall.png');
-            padding: 40px;
+            padding: 40px 20px;
             overflow-y: auto;
         }
         .shop-header {
@@ -152,49 +160,20 @@
             font-weight: bold;
             font-size: 1.1rem;
         }
-        .coin-gm { color: var(--gold); text-shadow: 1px 1px 1px #000; }
-        .coin-sm { color: var(--silver); text-shadow: 1px 1px 1px #000; }
-        .coin-km { color: var(--copper); text-shadow: 1px 1px 1px #000; }
+        .coin-gp { color: var(--gold); text-shadow: 1px 1px 1px #000; }
+        .coin-sp { color: var(--silver); text-shadow: 1px 1px 1px #000; }
+        .coin-cp { color: var(--copper); text-shadow: 1px 1px 1px #000; }
 
-        /* Mobile Responsive */
-        @media (max-width: 800px) {
-            body {
-                flex-direction: column;
-                overflow: auto;
-            }
-            nav {
-                width: 100%;
-                height: auto;
-                border-right: none;
-                border-bottom: 3px solid #b89c72;
-            }
-            .tab-container {
-                display: flex;
-                overflow-x: auto;
-                scroll-snap-type: x mandatory;
-                white-space: nowrap;
-            }
-            .tab-btn {
-                flex: 0 0 auto;
-                width: auto;
-                border-bottom: none;
-                border-right: 1px solid #d4c4a8;
-                scroll-snap-align: start;
-            }
-            .tab-btn.active {
-                border-left: none;
-                border-bottom: 5px solid var(--accent);
-            }
-            main {
-                padding: 20px;
-            }
+        @media (max-width: 600px) {
+            .shop-header h2 { font-size: 2rem; }
+            .item-card { padding: 15px; }
         }
     </style>
 </head>
 <body>
 
     <nav>
-        <h1>Red Larch</h1>
+        <h1>Red Larch Marktplatz</h1>
         <div class="tab-container" id="shop-tabs">
             <!-- Tabs werden via JS generiert -->
         </div>
@@ -208,196 +187,196 @@
         const shops = [
             {
                 id: 2,
-                name: "2. The Swinging Sword",
+                name: "The Swinging Sword",
                 owner: "Kaylessa Irkell",
                 desc: "Ein erstklassiges Gasthaus für wohlhabende Reisende und Abenteurer. Wer sich von der staubigen Long Road in luxuriösem Ambiente erholen möchte, ist hier genau richtig.",
                 items: [
-                    { name: "Luxuszimmer (pro Nacht)", price: "2 GM", icon: "fa-bed" },
-                    { name: "Feines Abendessen", price: "8 SM", icon: "fa-utensils" },
-                    { name: "Flasche Zwergenwein", price: "1 GM", icon: "fa-wine-bottle" },
-                    { name: "Heißes Bad (auf dem Zimmer)", price: "3 SM", icon: "fa-bath" },
-                    { name: "Stallplatz für Reittiere", price: "5 SM", icon: "fa-horse" }
+                    { name: "Luxuszimmer (pro Nacht)", price: "2 GP", icon: "fa-bed" },
+                    { name: "Feines Abendessen", price: "8 SP", icon: "fa-utensils" },
+                    { name: "Flasche Zwergenwein", price: "1 GP", icon: "fa-wine-bottle" },
+                    { name: "Heißes Bad (auf dem Zimmer)", price: "3 SP", icon: "fa-bath" },
+                    { name: "Stallplatz für Reittiere", price: "5 SP", icon: "fa-horse" }
                 ]
             },
             {
                 id: 3,
-                name: "3. The Helm at Highsun",
+                name: "The Helm at Highsun",
                 owner: "Garlen Harlathurl",
                 desc: "Eine laute, rustikale Taverne direkt am Hauptplatz. Hier treffen sich die einfachen Arbeiter und Durchreisenden, um den Staub des Dessarin-Tals hinunterzuspülen.",
                 items: [
-                    { name: "Krug dunkles Bier", price: "4 KM", icon: "fa-beer-mug-empty" },
-                    { name: "Heller Apfelwein", price: "5 KM", icon: "fa-glass-water" },
-                    { name: "Eintopf mit Brot", price: "1 SM", icon: "fa-bowl-food" },
-                    { name: "Gebratener Flussfisch", price: "3 SM", icon: "fa-fish" },
-                    { name: "Schlichtes Zimmer", price: "5 SM", icon: "fa-bed" },
-                    { name: "Kartenspiel-Einsatz", price: "1 SM", icon: "fa-dice" }
+                    { name: "Krug dunkles Bier", price: "4 CP", icon: "fa-beer-mug-empty" },
+                    { name: "Heller Apfelwein", price: "5 CP", icon: "fa-glass-water" },
+                    { name: "Eintopf mit Brot", price: "1 SP", icon: "fa-bowl-food" },
+                    { name: "Gebratener Flussfisch", price: "3 SP", icon: "fa-fish" },
+                    { name: "Schlichtes Zimmer", price: "5 SP", icon: "fa-bed" },
+                    { name: "Kartenspiel-Einsatz", price: "1 SP", icon: "fa-dice" }
                 ]
             },
             {
                 id: 4,
-                name: "4. Mother Yalanthas",
+                name: "Mother Yalanthas",
                 owner: "Mother Yalantha",
                 desc: "Eine gemütliche, leicht überfüllte Pension. Sie bietet einfache Schlafplätze und deftige Mahlzeiten für jene, denen das Swinging Sword zu teuer ist.",
                 items: [
-                    { name: "Hängematte (pro Nacht)", price: "1 SM", icon: "fa-bed" },
-                    { name: "Schlichtes Bett (pro Nacht)", price: "3 SM", icon: "fa-bed" },
-                    { name: "Hausgemachte Suppe", price: "5 KM", icon: "fa-bowl-rice" },
-                    { name: "Flick-Service für Kleidung", price: "2 SM", icon: "fa-scissors" },
-                    { name: "Krug frische Milch", price: "2 KM", icon: "fa-glass-water" },
-                    { name: "Frisches Brot mit Butter", price: "1 SM", icon: "fa-bread-slice" }
+                    { name: "Hängematte (pro Nacht)", price: "1 SP", icon: "fa-bed" },
+                    { name: "Schlichtes Bett (pro Nacht)", price: "3 SP", icon: "fa-bed" },
+                    { name: "Hausgemachte Suppe", price: "5 CP", icon: "fa-bowl-rice" },
+                    { name: "Flick-Service für Kleidung", price: "2 SP", icon: "fa-scissors" },
+                    { name: "Krug frische Milch", price: "2 CP", icon: "fa-glass-water" },
+                    { name: "Frisches Brot mit Butter", price: "1 SP", icon: "fa-bread-slice" }
                 ]
             },
             {
                 id: 5,
-                name: "5. Thelorn's Safe Journeys",
+                name: "Thelorn's Safe Journeys",
                 owner: "Familie Thelorn",
                 desc: "Spezialisten für den Wagenbau und die Reparatur von Kutschen. Unverzichtbar für jede Karawane, die auf der Long Road in Schwierigkeiten geraten ist.",
                 items: [
-                    { name: "Ersatz-Wagenrad", price: "5 GM", icon: "fa-circle-notch" },
-                    { name: "Schwerer Planwagen", price: "35 GM", icon: "fa-truck" },
-                    { name: "Achsen-Reparatur", price: "2 GM", icon: "fa-hammer" },
-                    { name: "Zweiachser-Karren", price: "15 GM", icon: "fa-cart-shopping" },
-                    { name: "Wasserdichter Planenstoff", price: "1 GM", icon: "fa-tarp" },
-                    { name: "Kutschen-Miete (Tag)", price: "1 GM", icon: "fa-horse-head" }
+                    { name: "Ersatz-Wagenrad", price: "5 GP", icon: "fa-circle-notch" },
+                    { name: "Schwerer Planwagen", price: "35 GP", icon: "fa-truck" },
+                    { name: "Achsen-Reparatur", price: "2 GP", icon: "fa-hammer" },
+                    { name: "Zweiachser-Karren", price: "15 GP", icon: "fa-cart-shopping" },
+                    { name: "Wasserdichter Planenstoff", price: "1 GP", icon: "fa-tarp" },
+                    { name: "Kutschen-Miete (Tag)", price: "1 GP", icon: "fa-horse-head" }
                 ]
             },
             {
                 id: 6,
-                name: "6. Chansyrl Fine Harness",
+                name: "Chansyrl Fine Harness",
                 owner: "Phaerl Chansyrl",
                 desc: "Hochwertige Lederwaren, Sättel und Zaumzeug. Die meisterhafte Handwerkskunst aus diesem kleinen Laden ist bis nach Waterdeep bekannt.",
                 items: [
-                    { name: "Reitsattel", price: "10 GM", icon: "fa-horse" },
-                    { name: "Satteltaschen", price: "4 GM", icon: "fa-briefcase" },
-                    { name: "Lederner Rucksack", price: "2 GM", icon: "fa-backpack" },
-                    { name: "Zaumzeug & Zügel", price: "2 GM", icon: "fa-horse-head" },
-                    { name: "Lederpeitsche", price: "5 SM", icon: "fa-hand-holding" },
-                    { name: "Robuster Ledergürtel", price: "8 SM", icon: "fa-band-aid" }
+                    { name: "Reitsattel", price: "10 GP", icon: "fa-horse" },
+                    { name: "Satteltaschen", price: "4 GP", icon: "fa-briefcase" },
+                    { name: "Lederner Rucksack", price: "2 GP", icon: "fa-backpack" },
+                    { name: "Zaumzeug & Zügel", price: "2 GP", icon: "fa-horse-head" },
+                    { name: "Lederpeitsche", price: "5 SP", icon: "fa-hand-holding" },
+                    { name: "Robuster Ledergürtel", price: "8 SP", icon: "fa-band-aid" }
                 ]
             },
             {
                 id: 7,
-                name: "7. Tarnlar Clothier",
+                name: "Tarnlar Clothier",
                 owner: "Helvur Tarnlar",
                 desc: "Von robuster Reisekleidung bis zu edlen Gewändern. Hier werdet ihr bestens für das raue und unberechenbare Wetter im Dessarin-Tal ausgestattet.",
                 items: [
-                    { name: "Feine Kleidung", price: "15 GM", icon: "fa-shirt" },
-                    { name: "Wetterfester Reiseumhang", price: "2 GM", icon: "fa-user-ninja" },
-                    { name: "Feste Wanderstiefel", price: "3 GM", icon: "fa-shoe-prints" },
-                    { name: "Warme Lederhandschuhe", price: "1 GM", icon: "fa-mitten" },
-                    { name: "Breitkrempiger Hut", price: "5 SM", icon: "fa-hat-cowboy" },
-                    { name: "Eleganter Seidenschal", price: "2 GM", icon: "fa-scarf" },
-                    { name: "Wollpullover", price: "1 GM", icon: "fa-shirt" }
+                    { name: "Feine Kleidung", price: "15 GP", icon: "fa-shirt" },
+                    { name: "Wetterfester Reiseumhang", price: "2 GP", icon: "fa-user-ninja" },
+                    { name: "Feste Wanderstiefel", price: "3 GP", icon: "fa-shoe-prints" },
+                    { name: "Warme Lederhandschuhe", price: "1 GP", icon: "fa-mitten" },
+                    { name: "Breitkrempiger Hut", price: "5 SP", icon: "fa-hat-cowboy" },
+                    { name: "Eleganter Seidenschal", price: "2 GP", icon: "fa-scarf" },
+                    { name: "Wollpullover", price: "1 GP", icon: "fa-shirt" }
                 ]
             },
             {
                 id: 8,
-                name: "8. Tansy's Bakery",
+                name: "Tansy's Bakery",
                 owner: "Tansy & Lorren",
                 desc: "Der süße Duft frisch gebackener Waren weht oft bis auf die Straße hinaus. Der perfekte Halt, um sich mit Reiseproviant einzudecken.",
                 items: [
-                    { name: "Frischer Brotlaib", price: "2 KM", icon: "fa-bread-slice" },
-                    { name: "Süßes Beeren-Gebäck", price: "5 KM", icon: "fa-cookie" },
-                    { name: "Herzhafte Fleischpastete", price: "8 KM", icon: "fa-chart-pie" },
-                    { name: "Reise-Zwieback (10 Tage)", price: "5 SM", icon: "fa-box" },
-                    { name: "Apfeltarte", price: "3 SM", icon: "fa-chart-pie" },
-                    { name: "Rosinenbrötchen", price: "1 KM", icon: "fa-cookie-bite" }
+                    { name: "Frischer Brotlaib", price: "2 CP", icon: "fa-bread-slice" },
+                    { name: "Süßes Beeren-Gebäck", price: "5 CP", icon: "fa-cookie" },
+                    { name: "Herzhafte Fleischpastete", price: "8 CP", icon: "fa-chart-pie" },
+                    { name: "Reise-Zwieback (10 Tage)", price: "5 SP", icon: "fa-box" },
+                    { name: "Apfeltarte", price: "3 SP", icon: "fa-chart-pie" },
+                    { name: "Rosinenbrötchen", price: "1 CP", icon: "fa-cookie-bite" }
                 ]
             },
             {
                 id: 9,
-                name: "9. Tantur Smithy",
+                name: "Tantur Smithy",
                 owner: "Laef Tantur",
                 desc: "Der örtliche Hufschmied und Eisenarbeiter von Red Larch. Hier wird der Fokus auf ehrliches, nützliches Werkzeug anstatt auf prunkvolle Rüstungen gelegt.",
                 items: [
-                    { name: "Hufeisen (Satz)", price: "1 GM", icon: "fa-horseshoe" },
-                    { name: "Eisennägel (100 Stück)", price: "5 SM", icon: "fa-toolbox" },
-                    { name: "Schwere Brechstange", price: "2 GM", icon: "fa-wrench" },
-                    { name: "Schmiedehammer", price: "2 GM", icon: "fa-gavel" },
-                    { name: "Beißzange", price: "1 GM", icon: "fa-wrench" },
-                    { name: "Eiserner Topf", price: "2 GM", icon: "fa-utensils" },
-                    { name: "Schaufel", price: "2 GM", icon: "fa-trowel" }
+                    { name: "Hufeisen (Satz)", price: "1 GP", icon: "fa-horseshoe" },
+                    { name: "Eisennägel (100 Stück)", price: "5 SP", icon: "fa-toolbox" },
+                    { name: "Schwere Brechstange", price: "2 GP", icon: "fa-wrench" },
+                    { name: "Schmiedehammer", price: "2 GP", icon: "fa-gavel" },
+                    { name: "Beißzange", price: "1 GP", icon: "fa-wrench" },
+                    { name: "Eiserner Topf", price: "2 GP", icon: "fa-utensils" },
+                    { name: "Schaufel", price: "2 GP", icon: "fa-trowel" }
                 ]
             },
             {
                 id: 11,
-                name: "11. Jalessas Schlachterei",
+                name: "Jalessas Schlachterei",
                 owner: "Jalessa Ornra",
                 desc: "Eine hervorragend sortierte Metzgerei, die frisches und vor allem lang haltbares Fleisch für die weiten Reisen nach Norden anbietet.",
                 items: [
-                    { name: "Geräucherter Schinken", price: "1 GM", icon: "fa-bacon" },
-                    { name: "Ring Knoblauchwurst", price: "2 SM", icon: "fa-hotdog" },
-                    { name: "Frisches Rindfleisch (Pfund)", price: "3 SM", icon: "fa-drumstick-bite" },
-                    { name: "Hundeknochen (groß)", price: "1 KM", icon: "fa-bone" },
-                    { name: "Gepökeltes Schweinefleisch", price: "5 SM", icon: "fa-meat" },
-                    { name: "Speckseite", price: "4 SM", icon: "fa-bacon" }
+                    { name: "Geräucherter Schinken", price: "1 GP", icon: "fa-bacon" },
+                    { name: "Ring Knoblauchwurst", price: "2 SP", icon: "fa-hotdog" },
+                    { name: "Frisches Rindfleisch (Pfund)", price: "3 SP", icon: "fa-drumstick-bite" },
+                    { name: "Hundeknochen (groß)", price: "1 CP", icon: "fa-bone" },
+                    { name: "Gepökeltes Schweinefleisch", price: "5 SP", icon: "fa-meat" },
+                    { name: "Speckseite", price: "4 SP", icon: "fa-bacon" }
                 ]
             },
             {
                 id: 12,
-                name: "12. Dornen Finestone",
+                name: "Dornen Finestone",
                 owner: "Elak Dornen",
                 desc: "Ein florierendes Geschäft für feine Steinarbeiten. Der ständige Lärm der Steinmetze und der feine Staub aus den Brüchen gehören zum Alltag von Red Larch.",
                 items: [
-                    { name: "Einfacher Grabstein", price: "10 GM", icon: "fa-monument" },
-                    { name: "Kleine Stein-Statuette", price: "5 GM", icon: "fa-chess-rook" },
-                    { name: "Poliere Kiesel (Sack)", price: "2 SM", icon: "fa-gem" },
-                    { name: "Schleifstein", price: "1 KM", icon: "fa-circle" },
-                    { name: "Steinmetz-Hammer", price: "2 GM", icon: "fa-hammer" },
-                    { name: "Schwerer Granitblock", price: "3 GM", icon: "fa-cubes" }
+                    { name: "Einfacher Grabstein", price: "10 GP", icon: "fa-monument" },
+                    { name: "Kleine Stein-Statuette", price: "5 GP", icon: "fa-chess-rook" },
+                    { name: "Poliere Kiesel (Sack)", price: "2 SP", icon: "fa-gem" },
+                    { name: "Schleifstein", price: "1 CP", icon: "fa-circle" },
+                    { name: "Steinmetz-Hammer", price: "2 GP", icon: "fa-hammer" },
+                    { name: "Schwerer Granitblock", price: "3 GP", icon: "fa-cubes" }
                 ]
             },
             {
                 id: 13,
-                name: "13. Ironhead Arms",
+                name: "Ironhead Arms",
                 owner: "Feng Ironhead",
                 desc: "Ein solider Waffenschmied. Feng zahlt faire Preise und kauft ohne viele lästige Fragen auch erbeutetes Banditengut an. Zudem findet man hier äußerst zuverlässige Waffen.",
                 items: [
-                    { name: "Langschwert", price: "15 GM", icon: "fa-khanda" },
-                    { name: "Kettenhemd", price: "50 GM", icon: "fa-shirt" },
-                    { name: "Dolch", price: "2 GM", icon: "fa-khanda" },
-                    { name: "Holzschild", price: "10 GM", icon: "fa-shield-halved" },
-                    { name: "Pfeile (20 Stück)", price: "1 GM", icon: "fa-arrow-up" },
-                    { name: "Armbrustbolzen (20)", price: "1 GM", icon: "fa-arrow-up" },
-                    { name: "Wetzstein", price: "1 KM", icon: "fa-gem" },
-                    { name: "Streitaxt", price: "10 GM", icon: "fa-gavel" }
+                    { name: "Langschwert", price: "15 GP", icon: "fa-khanda" },
+                    { name: "Kettenhemd", price: "50 GP", icon: "fa-shirt" },
+                    { name: "Dolch", price: "2 GP", icon: "fa-khanda" },
+                    { name: "Holzschild", price: "10 GP", icon: "fa-shield-halved" },
+                    { name: "Pfeile (20 Stück)", price: "1 GP", icon: "fa-arrow-up" },
+                    { name: "Armbrustbolzen (20)", price: "1 GP", icon: "fa-arrow-up" },
+                    { name: "Wetzstein", price: "1 CP", icon: "fa-gem" },
+                    { name: "Streitaxt", price: "10 GP", icon: "fa-gavel" }
                 ]
             },
             {
                 id: 14,
-                name: "14. Endriths Antiquitäten",
+                name: "Endriths Antiquitäten",
                 owner: "Endrith Vallivoe",
                 desc: "Ein staubiger Laden voller Kuriositäten. Endrith, ein umgänglicher Krämer und Reisegefährte mit freundlichem Lächeln, hat stets ein offenes Ohr für Gerüchte – besonders über mysteriöse Vorfälle in den Sumber Hills.",
                 items: [
-                    { name: "Geheimnisvolles Amulett", price: "25 GM", icon: "fa-gem" },
-                    { name: "Alte Karte des Dessarin-Tals", price: "10 GM", icon: "fa-map" },
-                    { name: "Buch der elbischen Poesie", price: "5 GM", icon: "fa-book" },
-                    { name: "Seltsamer leuchtender Stein", price: "50 GM", icon: "fa-lightbulb" },
-                    { name: "Antiker Kompass", price: "15 GM", icon: "fa-compass" },
-                    { name: "Unidentifizierter Trank", price: "20 GM", icon: "fa-flask" }
+                    { name: "Geheimnisvolles Amulett", price: "25 GP", icon: "fa-gem" },
+                    { name: "Alte Karte des Dessarin-Tals", price: "10 GP", icon: "fa-map" },
+                    { name: "Buch der elbischen Poesie", price: "5 GP", icon: "fa-book" },
+                    { name: "Seltsamer leuchtender Stein", price: "50 GP", icon: "fa-lightbulb" },
+                    { name: "Antiker Kompass", price: "15 GP", icon: "fa-compass" },
+                    { name: "Unidentifizierter Trank", price: "20 GP", icon: "fa-flask" }
                 ]
             },
             {
                 id: 15,
-                name: "15. Haeleeyas",
+                name: "Haeleeyas",
                 owner: "Haeleeya",
                 desc: "Ein exzellent gepflegtes Badehaus und Bekleidungsgeschäft. Eine wahre Oase der Erholung und Sauberkeit, um sich den Staub der Straße abzuwaschen.",
                 items: [
-                    { name: "Heißes Bad im Badehaus", price: "5 SM", icon: "fa-bath" },
-                    { name: "Entspannende Massage (1 Std.)", price: "1 GM", icon: "fa-spa" },
-                    { name: "Parfüm (Rose/Lavendel)", price: "5 GM", icon: "fa-spray-can" },
-                    { name: "Feine handgemachte Seife", price: "2 SM", icon: "fa-soap" },
-                    { name: "Kräuter-Badesalz", price: "1 GM", icon: "fa-mortar-pestle" },
-                    { name: "Elegantes Baumwolltuch", price: "3 SM", icon: "fa-scroll" },
-                    { name: "Beruhigender Kräutertee", price: "1 SM", icon: "fa-mug-hot" }
+                    { name: "Heißes Bad im Badehaus", price: "5 SP", icon: "fa-bath" },
+                    { name: "Entspannende Massage (1 Std.)", price: "1 GP", icon: "fa-spa" },
+                    { name: "Parfüm (Rose/Lavendel)", price: "5 GP", icon: "fa-spray-can" },
+                    { name: "Feine handgemachte Seife", price: "2 SP", icon: "fa-soap" },
+                    { name: "Kräuter-Badesalz", price: "1 GP", icon: "fa-mortar-pestle" },
+                    { name: "Elegantes Baumwolltuch", price: "3 SP", icon: "fa-scroll" },
+                    { name: "Beruhigender Kräutertee", price: "1 SP", icon: "fa-mug-hot" }
                 ]
             }
         ];
 
         function formatPrice(priceStr) {
-            if (priceStr.includes("GM")) return `<span class="coin-gm">${priceStr}</span>`;
-            if (priceStr.includes("SM")) return `<span class="coin-sm">${priceStr}</span>`;
-            if (priceStr.includes("KM")) return `<span class="coin-km">${priceStr}</span>`;
+            if (priceStr.includes("GP")) return `<span class="coin-gp">${priceStr}</span>`;
+            if (priceStr.includes("SP")) return `<span class="coin-sp">${priceStr}</span>`;
+            if (priceStr.includes("CP")) return `<span class="coin-cp">${priceStr}</span>`;
             return priceStr;
         }
 
@@ -417,7 +396,7 @@
 
             contentDiv.innerHTML = `
                 <div class="shop-header">
-                    <h2>${shop.name.substring(shop.name.indexOf('.') + 2)}</h2>
+                    <h2>${shop.name}</h2>
                     <div class="owner">Inhaber: ${shop.owner}</div>
                     <p>${shop.desc}</p>
                 </div>
@@ -429,11 +408,15 @@
             // Update Active Tab
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById(`tab-${shopId}`).classList.add('active');
+            
+            // Tab in den sichtbaren Bereich scrollen (nützlich für Mobile/Tablet)
+            const activeTab = document.getElementById(`tab-${shopId}`);
+            activeTab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
         }
 
         // Initialize App
         const tabContainer = document.getElementById('shop-tabs');
-        shops.forEach((shop, index) => {
+        shops.forEach((shop) => {
             const btn = document.createElement('button');
             btn.className = 'tab-btn';
             btn.id = `tab-${shop.id}`;
